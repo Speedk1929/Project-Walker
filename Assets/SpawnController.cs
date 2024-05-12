@@ -15,11 +15,12 @@ public class SpawnController : MonoBehaviour
     public double waveSpawnInterval = 0.5;
 
     [Header("Intermission Parameters")]
-    public double spawnPoints = 0;
+    public double intermissionSpawnPoints = 0;
     public double allowedEntitiesMoidifier = 0.5;
-    public double spawnInterval = 1;
+    public double intermissionSpawnInterval = 1;
 
     [Header("Spawn Parameters")]
+    public bool waveMode;
     public List<GameObject> spawnLocations = new List<GameObject>();
     PlayerStats playerStats;
     public List<GameObject> enemyList = new List<GameObject>();
@@ -52,97 +53,57 @@ public class SpawnController : MonoBehaviour
 
         waveSpawnPoints = 100;
 
-        StartCoroutine(Wave());
+        StartCoroutine(Wave(waveSpawnPoints, waveSpawnInterval));
 
 
     }
 
     public void IntermissionStart()
     {
-        spawnPoints = 100;
+        intermissionSpawnPoints = 100;
 
-        StartCoroutine(Intermission());
+        StartCoroutine(Wave(intermissionSpawnPoints, intermissionSpawnInterval));
 
 
     }
 
 
 
-    public IEnumerator Wave()
+    public IEnumerator Wave(double spawnPoints, double spawnInterval)
     {
 
         int randomUnit = UnityEngine.Random.Range(0, enemyList.Count);
 
 
 
-        if (0 <= waveSpawnPoints - enemyList[randomUnit].GetComponent<Enemy>().spawnCost)
-        {
-
-            GameObject spawnedEnemy = Instantiate(enemyList[randomUnit]);
-            waveSpawnPoints -= enemyList[randomUnit].GetComponent<Enemy>().spawnCost;
-
-
-
-            RandomSpawnLocation(spawnedEnemy, spawnLocations);
-
-
-
-
-        }
-
-        yield return new WaitForSeconds(Convert.ToSingle(waveSpawnInterval));
-
-
-        if(waveSpawnPoints <= 0)
-        {
-
-            yield return null;
-            IntermissionStart();
-
-        }
-
-
-
-        yield return Wave();
-    }
-
-
-    public IEnumerator Intermission()
-    {
-
-        int randomUnit = UnityEngine.Random.Range(0, enemyList.Count);
-
-
-
-        if ( 0 <= spawnPoints - enemyList[randomUnit].GetComponent<Enemy>().spawnCost)
+        if (0 <= spawnPoints - enemyList[randomUnit].GetComponent<Enemy>().spawnCost)
         {
 
             GameObject spawnedEnemy = Instantiate(enemyList[randomUnit]);
             spawnPoints -= enemyList[randomUnit].GetComponent<Enemy>().spawnCost;
 
+
             RandomSpawnLocation(spawnedEnemy, spawnLocations);
+
         }
 
         yield return new WaitForSeconds(Convert.ToSingle(spawnInterval));
 
 
-        if (spawnPoints <= 0)
+        if(spawnPoints <= 0)
         {
-            WaveStart();
+
             yield return null;
+            waveMode = !waveMode;
 
         }
 
 
 
-
-        yield return Intermission();
+        yield return Wave(spawnPoints, spawnInterval);
     }
 
-
-
-
-
+    
     public void RandomSpawnLocation(GameObject enemy, List<GameObject> spawnLocations)
     {
 
@@ -154,6 +115,21 @@ public class SpawnController : MonoBehaviour
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -9,18 +9,22 @@ using UnityEngine.EventSystems;
 public class SpawnController : MonoBehaviour
 {
     [Header("Wave Parameters")]
-    public double lengthOfWaves = 180;
-    public double waveSpawnPoints = 0;
+    public int numnberOfWaves = 1;
+    public int waveSpawnPoints = 0;
     public double waveAllowedEntitiesMoidifier = 0.5;
     public double waveSpawnInterval = 0.5;
+    public int numberOfEnemiesLeft = 0;
+   
 
     [Header("Intermission Parameters")]
-    public double intermissionSpawnPoints = 0;
     public double allowedEntitiesMoidifier = 0.5;
     public double intermissionSpawnInterval = 1;
+    public double intermissionLength = 45;
+    public double intermissionCurrentLength = 0;
+    
 
     [Header("Spawn Parameters")]
-    public bool waveMode;
+    public bool isWave = false;
     public List<GameObject> spawnLocations = new List<GameObject>();
     PlayerStats playerStats;
     public List<GameObject> enemyList = new List<GameObject>();
@@ -36,23 +40,32 @@ public class SpawnController : MonoBehaviour
     {
 
         current = this;
-
-    }
-    private void Start()
-    {
-        
         GameObject.FindGameObjectWithTag("Player").TryGetComponent(out playerStats);
         spawnLocations = GameObject.FindGameObjectsWithTag("Spawner").ToList();
         IntermissionStart();
+    }
 
-       
+    public void Update()
+    {
+        if (!isWave)
+        {
+            intermissionCurrentLength -= Time.deltaTime;
+
+        }
+        else if (isWave)
+        {
+
+            List<Enemy> aliveEnemies = FindObjectsOfType<Enemy>().ToList();
+            numberOfEnemiesLeft = aliveEnemies.Count(Enemy => Enemy.apartOfWave == true);
+
+        }
     }
 
     public void WaveStart()
     {
-
-        waveSpawnPoints = 100;
-
+        numnberOfWaves++;
+        waveSpawnPoints = 20;
+        isWave = true;
         StartCoroutine(Wave(waveSpawnPoints, waveSpawnInterval));
 
 
@@ -60,45 +73,62 @@ public class SpawnController : MonoBehaviour
 
     public void IntermissionStart()
     {
-        intermissionSpawnPoints = 100;
 
-        StartCoroutine(Wave(intermissionSpawnPoints, intermissionSpawnInterval));
+        intermissionCurrentLength = intermissionLength;
+        isWave = false;
+        StartCoroutine(Wave(0, intermissionSpawnInterval));
 
 
     }
 
 
 
-    public IEnumerator Wave(double spawnPoints, double spawnInterval)
+    public IEnumerator Wave(int spawnPoints, double spawnInterval)
     {
-
+        Debug.Log(spawnInterval);
+        Debug.Log(spawnInterval);
         int randomUnit = UnityEngine.Random.Range(0, enemyList.Count);
 
+        if (isWave)
+        {
+            if (0 <= spawnPoints - enemyList[randomUnit].GetComponent<Enemy>().spawnCost)
+            {
 
+                GameObject spawnedEnemy = Instantiate(enemyList[randomUnit]);
+                spawnPoints -= enemyList[randomUnit].GetComponent<Enemy>().spawnCost;
+                spawnedEnemy.GetComponent<Enemy>().apartOfWave = isWave;
 
-        if (0 <= spawnPoints - enemyList[randomUnit].GetComponent<Enemy>().spawnCost)
+                RandomSpawnLocation(spawnedEnemy, spawnLocations);
+
+            }
+
+            if (spawnPoints <= 0 && numberOfEnemiesLeft <= 0)
+            {
+
+                IntermissionStart();
+                yield break;
+            }
+            waveSpawnPoints = spawnPoints;
+        }
+        
+
+        else
         {
 
             GameObject spawnedEnemy = Instantiate(enemyList[randomUnit]);
-            spawnPoints -= enemyList[randomUnit].GetComponent<Enemy>().spawnCost;
-
-
             RandomSpawnLocation(spawnedEnemy, spawnLocations);
+
+            if (intermissionCurrentLength <= 0)
+            {
+
+                WaveStart();
+                yield break;
+
+            }
 
         }
 
         yield return new WaitForSeconds(Convert.ToSingle(spawnInterval));
-
-
-        if(spawnPoints <= 0)
-        {
-
-            yield return null;
-            waveMode = !waveMode;
-
-        }
-
-
 
         yield return Wave(spawnPoints, spawnInterval);
     }
@@ -115,7 +145,6 @@ public class SpawnController : MonoBehaviour
 
 
     }
-
 
 
 

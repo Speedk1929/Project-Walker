@@ -2,6 +2,7 @@ using Pathfinding;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -25,7 +26,8 @@ public class Enemy : MonoBehaviour
     public double expirience = 1;
 
     [Header("Spawn Properties")]
-    public double spawnCost = 1;
+    public int spawnCost = 1;
+    public bool apartOfWave = false;
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");

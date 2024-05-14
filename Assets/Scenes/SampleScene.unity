@@ -1449,7 +1449,7 @@ MonoBehaviour:
   currentHealth: 3
   maxSpeed: 20
   acceleration: 10
-  fireRate: 1
+  fireRate: 0.5
   fireRateCountdown: 0
   pushbackOnDamaged: 25
   xp: 0
@@ -2027,12 +2027,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19f9ecad359a9a54cacfb8776e9a200c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lengthOfWaves: 180
+  numnberOfWaves: 1
   waveSpawnPoints: 0
   waveAllowedEntitiesMoidifier: 0.5
-  SpawnPoints: 0
+  waveSpawnInterval: 1
+  numberOfEnemiesLeft: 0
   allowedEntitiesMoidifier: 0.5
-  spawnInterval: 1
+  intermissionSpawnInterval: 2
+  intermissionLength: 20
+  intermissionCurrentLength: 0
+  isWave: 0
   spawnLocations: []
   enemyList:
   - {fileID: 8393857197396936618, guid: 4aa33d942bb03fa4594ea4d27c2a1954, type: 3}

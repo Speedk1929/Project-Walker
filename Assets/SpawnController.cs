@@ -26,6 +26,7 @@ public class SpawnController : MonoBehaviour
 
     [Header("Spawn Parameters")]
     public bool isWave = false;
+    public double playerSpawnBuffer = 10;
     public List<GameObject> spawnLocations = new List<GameObject>();
     PlayerStats playerStats;
     public List<GameObject> enemyList = new List<GameObject>();
@@ -136,31 +137,24 @@ public class SpawnController : MonoBehaviour
     
     public void RandomSpawnLocation(GameObject enemy, List<GameObject> spawnLocations)
     {
+        double distanceToPlayer = 0;
+        while (distanceToPlayer < playerSpawnBuffer)
+        {
 
-        int randomLocation = UnityEngine.Random.Range(0, spawnLocations.Count);
-        enemy.transform.position = spawnLocations[randomLocation].transform.position;
+            int randomLocation = UnityEngine.Random.Range(0, spawnLocations.Count);
+            distanceToPlayer = Vector3.Distance(spawnLocations[randomLocation].transform.position, playerStats.transform.position);
+
+            if (distanceToPlayer >= playerSpawnBuffer)
+            {
+
+                enemy.transform.position = spawnLocations[randomLocation].transform.position;
 
 
+            }
+
+
+        }
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

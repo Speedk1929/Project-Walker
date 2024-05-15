@@ -42,7 +42,7 @@ public class PlayerStats : MonoBehaviour
     {
 
 
-        if (fireRateCountdown >= 0)
+        if (fireRateCountdown > 0)
         {
 
             fireRateCountdown -= Time.deltaTime;

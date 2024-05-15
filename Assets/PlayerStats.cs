@@ -16,7 +16,7 @@ public class PlayerStats : MonoBehaviour
     public float acceleration = 0;
 
     [Header("Firepower Parameters")]
-    [Range(0.01f, 10)]
+    [Range(0.01f, 0.5f)]
     public double fireRate = 1;
     public double fireRateCountdown = 0;
 
@@ -98,9 +98,6 @@ public class PlayerStats : MonoBehaviour
 
 
         }
-
-
-
 
     }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.EventSystems;
 
 public class SpawnController : MonoBehaviour
@@ -85,8 +86,7 @@ public class SpawnController : MonoBehaviour
 
     public IEnumerator Wave(int spawnPoints, double spawnInterval)
     {
-        Debug.Log(spawnInterval);
-        Debug.Log(spawnInterval);
+
         int randomUnit = UnityEngine.Random.Range(0, enemyList.Count);
 
         if (isWave)
@@ -137,10 +137,8 @@ public class SpawnController : MonoBehaviour
     public void RandomSpawnLocation(GameObject enemy, List<GameObject> spawnLocations)
     {
 
-       int randomLocation = UnityEngine.Random.Range(0, spawnLocations.Count);
-
-
-       enemy.transform.position = spawnLocations[randomLocation].transform.position;
+        int randomLocation = UnityEngine.Random.Range(0, spawnLocations.Count);
+        enemy.transform.position = spawnLocations[randomLocation].transform.position;
 
 
 

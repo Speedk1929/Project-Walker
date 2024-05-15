@@ -45,7 +45,7 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.gameObject.tag != "Bullet")
+        if (collision.gameObject.tag != "Bullet" && collision.gameObject.tag != "Player")
         {
 
 

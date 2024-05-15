@@ -530,7 +530,7 @@ MonoBehaviour:
   manualDebugFloorRoof: 0
   showSearchTree: 0
   unwalkableNodeDebugSize: 0.3
-  logPathResults: 1
+  logPathResults: 4
   maxNearestNodeDistance: 100
   scanOnStartup: 1
   fullGetNearestSearch: 0
@@ -2138,6 +2138,7 @@ MonoBehaviour:
   intermissionLength: 20
   intermissionCurrentLength: 0
   isWave: 0
+  playerSpawnBuffer: 10
   spawnLocations: []
   enemyList:
   - {fileID: 8393857197396936618, guid: 4aa33d942bb03fa4594ea4d27c2a1954, type: 3}

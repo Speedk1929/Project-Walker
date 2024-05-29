@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Timeline;
 
 public class PlayerStats : MonoBehaviour
 {
     [Header("Health Parameters")]
     public double maxHealth = 3;
-    public double regenerationRate = 1;
+    public double regenerationRate = 0;
     public double currentHealth = 3;
     [Header("Speed Parameters")]
     [Range(0, 50)]
@@ -28,8 +29,20 @@ public class PlayerStats : MonoBehaviour
     public double xp = 0;
     public double xpNeededToLevelUp = 0;
     public int playerLevel = 0;
-
+    public int upgradesLeft = 0;
     Rigidbody2D rb2D;
+    public event Action upgrade;
+
+
+    public static PlayerStats PlayerStatsGlobal = null;
+
+    private void Awake()
+    {
+
+        PlayerStatsGlobal = this;
+
+
+    }
 
     private void Start()
     {
@@ -93,7 +106,7 @@ public class PlayerStats : MonoBehaviour
         if (xp >= xpNeededToLevelUp )
         {
             xp = 0;
-            playerLevel++;
+            upgrade.Invoke();
 
 
 
@@ -101,22 +114,5 @@ public class PlayerStats : MonoBehaviour
 
     }
 
-    public void Upgrade()
-    {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
 
 }

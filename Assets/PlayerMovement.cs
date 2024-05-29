@@ -87,15 +87,10 @@ public class PlayerMovement : MonoBehaviour
     public void Fire()
     {
 
-
         playerStats.fireRateCountdown = playerStats.fireRate;
         GameObject bulletFired = Instantiate(bullet, null, false);
         bulletFired.transform.position = firePoint.position;
         bulletFired.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles);
-
-
-
-
 
 
     }

@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 public class SpawnController : MonoBehaviour
 {
     [Header("Wave Parameters")]
-    public int numnberOfWaves = 1;
+    public int numberOfWaves = 1;
     public int waveSpawnPoints = 0;
     public double waveAllowedEntitiesMoidifier = 0.5;
     public double waveSpawnInterval = 0.5;
@@ -65,11 +65,13 @@ public class SpawnController : MonoBehaviour
 
     public void WaveStart()
     {
-        numnberOfWaves++;
-        waveSpawnPoints = 20;
+        numberOfWaves++;
         isWave = true;
+        (int, double) spawnParams = FindSpawnParameters(isWave);
+        waveSpawnPoints = spawnParams.Item1;
+        waveSpawnInterval = spawnParams.Item2;
         StartCoroutine(Wave(waveSpawnPoints, waveSpawnInterval));
-
+        Debug.Log("Wavespawn Interval: " + waveSpawnInterval);
 
     }
 
@@ -78,6 +80,8 @@ public class SpawnController : MonoBehaviour
 
         intermissionCurrentLength = intermissionLength;
         isWave = false;
+        (int, double) spawnParams = FindSpawnParameters(isWave);
+        intermissionSpawnInterval = spawnParams.Item2;
         StartCoroutine(Wave(0, intermissionSpawnInterval));
 
 
@@ -152,9 +156,39 @@ public class SpawnController : MonoBehaviour
 
             }
 
-
         }
 
     }
+
+
+    public (int, double) FindSpawnParameters(bool isWave)
+    {
+
+        int spawnPoints = 0;
+        double spawnInterval = 0;
+
+
+        if (isWave)
+        {
+            spawnPoints = Convert.ToInt32(Math.Pow(Convert.ToDouble(numberOfWaves), 3) + 40);
+            spawnInterval = -math.sqrt(Convert.ToDouble(numberOfWaves) / (Convert.ToDouble(numberOfWaves) + 100)) + 1;
+            
+        }
+
+        else
+        {
+            spawnPoints = 0;
+            spawnInterval = -math.sqrt(numberOfWaves / (numberOfWaves + 100)) + 2;
+        }
+
+
+
+        (int, double) spawnParameters = (spawnPoints, spawnInterval);
+
+
+        return spawnParameters;
+    }
+
+
 
 }

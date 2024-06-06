@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using TMPro;
 using Unity.PlasticSCM.Editor.WebApi;
 using Unity.Properties;
 using UnityEngine;
@@ -17,6 +18,12 @@ public class UpgradeController : MonoBehaviour
     public int maxAvaliableUpgrades = 4;
     public GameObject upgradeButtonPrefab;
     public GameObject upgradePanel;
+    public GameObject upgradeDescriptions;
+
+    public TextMeshProUGUI name;
+    public TextMeshProUGUI description;
+
+
 
     private void Start()
     {
@@ -24,7 +31,7 @@ public class UpgradeController : MonoBehaviour
         maxAvaliableUpgrades = Convert.ToInt32(MathF.Min(maxAvaliableUpgrades, upgrades.Count));
         PlayerStats.PlayerStatsGlobal.upgrade += LevelUp;
         upgradePanel.GetComponent<Image>().enabled = false;
-
+        upgradeDescriptions.SetActive(false);
     }
 
 
@@ -43,6 +50,7 @@ public class UpgradeController : MonoBehaviour
     public IEnumerator LevelUpCall()
     {
         upgradePanel.GetComponent<Image>().enabled = true;
+        upgradeDescriptions.SetActive(true);
         int playerLevel = PlayerStats.PlayerStatsGlobal.playerLevel;
         List<GameObject> buttonList = new List<GameObject>();
 
@@ -68,7 +76,9 @@ public class UpgradeController : MonoBehaviour
             GameObject upgradeButton = Instantiate(upgradeButtonPrefab, upgradePanel.transform, false);
             buttonList.Add(upgradeButton);
             upgradeButton.GetComponent<UpgradeButton>().upgrade = upgradesSelected[run];
-
+            upgradeButton.GetComponent<UpgradeButton>().name = name;
+            upgradeButton.GetComponent<UpgradeButton>().description = description;
+            upgradeButton.GetComponent<Image>().sprite = upgradesSelected[run].icon;
         }
 
         Time.timeScale = 0;
@@ -87,7 +97,7 @@ public class UpgradeController : MonoBehaviour
 
 
         upgradePanel.GetComponent<Image>().enabled = false;
-
+        upgradeDescriptions.SetActive(false);
 
         yield break;
 

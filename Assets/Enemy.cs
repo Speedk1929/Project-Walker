@@ -47,8 +47,6 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(double damage)
     {
 
-        
-
         health -= damage;
         if (health <= 0)
         {

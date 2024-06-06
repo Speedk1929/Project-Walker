@@ -246,7 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   penetrations: 1
-  speed: 6
+  speed: 8
   maxDistance: 50
   currentDistance: 0
   rb: {fileID: 0}

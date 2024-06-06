@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Timeline;
+using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -33,12 +34,13 @@ public class PlayerStats : MonoBehaviour
     Rigidbody2D rb2D;
     public event Action upgrade;
 
+    public Slider xpSlider;
 
     public static PlayerStats PlayerStatsGlobal = null;
 
     private void Awake()
     {
-
+        xpSlider = GameObject.Find("XpSlider").GetComponent<Slider>();
         PlayerStatsGlobal = this;
 
 
@@ -101,13 +103,14 @@ public class PlayerStats : MonoBehaviour
 
         xp += expirience;
 
-        xpNeededToLevelUp = Mathf.Pow(playerLevel, 2) * 25 + 10;
-
+        xpNeededToLevelUp = Mathf.Pow(playerLevel, 2) * 10 + 10;
+        xpSlider.maxValue = Convert.ToSingle(xpNeededToLevelUp);
+        xpSlider.value = Convert.ToSingle(xp);
         if (xp >= xpNeededToLevelUp )
         {
             xp = 0;
+            xpSlider.value = Convert.ToSingle(xp);
             upgrade.Invoke();
-
 
 
         }

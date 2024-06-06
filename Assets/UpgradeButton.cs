@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,9 @@ public class UpgradeButton : MonoBehaviour
 
     public Button button;
     public Upgrade upgrade;
-    
+
+    public TextMeshProUGUI name;
+    public TextMeshProUGUI description;
 
 
     private void Awake()
@@ -33,7 +36,14 @@ public class UpgradeButton : MonoBehaviour
 
     }
 
+    public void OnMouseHover()
+    {
 
+
+        name.text = upgrade.name;
+        description.text = upgrade.description;
+
+    }
 
 
     public void ChangeVariable(object target, string variableName, double newValue, bool wholeIncrements)

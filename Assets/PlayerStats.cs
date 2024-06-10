@@ -13,9 +13,11 @@ public class PlayerStats : MonoBehaviour
     public double currentHealth = 3;
     [Header("Speed Parameters")]
     [Range(0, 50)]
-    public double maxSpeed = 0;
+    public float maxSpeed = 0;
     [Range(0, 10)]
     public float acceleration = 0;
+    public float drag;
+    public float power = 0;
 
     [Header("Firepower Parameters")]
     [Range(0.01f, 0.5f)]
@@ -25,6 +27,9 @@ public class PlayerStats : MonoBehaviour
     [Header("Damage Parameters")]
     [Range(0f, 100f)]
     public float pushbackOnDamaged = 10f;
+    [Range(0, 1f)]
+    public float invincibilityDuriation = 0.15f;
+    public bool invincibilityCheck = false;
 
     [Header("Upgrade Parameters")]
     public double xp = 0;
@@ -56,7 +61,6 @@ public class PlayerStats : MonoBehaviour
     private void FixedUpdate()
     {
 
-
         if (fireRateCountdown > 0)
         {
 
@@ -77,26 +81,44 @@ public class PlayerStats : MonoBehaviour
     }
 
 
+
     public void TakeDamage(double damage, Vector2 impactPoint)
     {
-
-        currentHealth -= damage;
-
-        Vector2 direction = new Vector2(transform.position.x, transform.position.y) - impactPoint ;
-
-        rb2D.AddForce(direction * pushbackOnDamaged, ForceMode2D.Impulse);
-
-
-
-        if (currentHealth <= 0)
+        if (!invincibilityCheck)
         {
 
-            Destroy(gameObject);
+            currentHealth -= damage;
+
+            Vector2 direction = new Vector2(transform.position.x, transform.position.y) - impactPoint;
+
+            rb2D.AddForce(direction * pushbackOnDamaged, ForceMode2D.Impulse);
+
+            StartCoroutine(Invincibility());
+
+            if (currentHealth <= 0)
+            {
+
+                Destroy(gameObject);
+
+            }
 
         }
+    }
 
+    public IEnumerator Invincibility()
+    {
+
+
+        invincibilityCheck = true;
+
+        yield return new WaitForSeconds(invincibilityDuriation);
+
+        invincibilityCheck = false;
+
+        yield break;
 
     }
+
 
     public void AddExpirience(double expirience)
     {

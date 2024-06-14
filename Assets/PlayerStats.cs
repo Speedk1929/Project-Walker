@@ -9,15 +9,16 @@ public class PlayerStats : MonoBehaviour
 {
     [Header("Health Parameters")]
     public double maxHealth = 3;
+    [Range(0, 1)]
     public double regenerationRate = 0;
+    private double regenHealth = 0;
     public double currentHealth = 3;
     [Header("Speed Parameters")]
     [Range(0, 50)]
     public float maxSpeed = 0;
     [Range(0, 10)]
     public float acceleration = 0;
-    public float drag;
-    public float power = 0;
+    public float currentSpeed = 0;
 
     [Header("Firepower Parameters")]
     [Range(0.01f, 0.5f)]
@@ -47,7 +48,7 @@ public class PlayerStats : MonoBehaviour
     {
         xpSlider = GameObject.Find("XpSlider").GetComponent<Slider>();
         PlayerStatsGlobal = this;
-
+        currentHealth = maxHealth;
 
     }
 
@@ -61,6 +62,8 @@ public class PlayerStats : MonoBehaviour
     private void FixedUpdate()
     {
 
+        currentSpeed = rb2D.velocity.magnitude;
+
         if (fireRateCountdown > 0)
         {
 
@@ -69,14 +72,20 @@ public class PlayerStats : MonoBehaviour
         }
 
 
-        if (currentHealth < 3)
+        if (currentHealth < maxHealth)
         {
 
-            currentHealth += (Time.deltaTime * 1) / 60;
+            regenHealth += Time.deltaTime * regenerationRate;
 
+
+            if (regenHealth >= 1)
+            {
+                currentHealth++;
+                regenHealth = 0;
+
+            }
 
         }
-
 
     }
 
@@ -133,7 +142,6 @@ public class PlayerStats : MonoBehaviour
             xp = 0;
             xpSlider.value = Convert.ToSingle(xp);
             upgrade.Invoke();
-
 
         }
 

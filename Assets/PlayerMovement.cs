@@ -61,7 +61,8 @@ public class PlayerMovement : MonoBehaviour
 
         float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg;
         // Rotate the sprite to face towards the mouse
-        transform.rotation = Quaternion.Euler(0f, 0f, angle -90);
+        
+        transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Lerp(transform.rotation.z, angle, 4f) -90);
 
 
         Vector2 movementCommands = inputActions.Player.Movement.ReadValue<Vector2>();
@@ -74,28 +75,45 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-
-        rigidbody2D.AddForce(playerStats.acceleration * movementCommands * Time.deltaTime * 100);
-        
-        if (rigidbody2D.velocity.magnitude > playerStats.maxSpeed)
+        if (!playerStats.invincibilityCheck)
         {
+            rigidbody2D.AddForce(playerStats.acceleration * movementCommands * Time.deltaTime * 100);
+
+            if (rigidbody2D.velocity.magnitude > playerStats.maxSpeed)
+            {
+
+                rigidbody2D.velocity = rigidbody2D.velocity.normalized * playerStats.maxSpeed;
+            }
             
-            rigidbody2D.velocity = rigidbody2D.velocity.normalized * playerStats.maxSpeed;
-        }
+            if (movementCommands.magnitude == 0)
+            {
 
-        if (movementCommands.magnitude == 0)
-        {
+                rigidbody2D.velocity = rigidbody2D.velocity.normalized * 2;
+                rigidbody2D.drag = Mathf.Lerp(rigidbody2D.drag, 10, Time.deltaTime * 5);
 
-            rigidbody2D.velocity = rigidbody2D.velocity.normalized * 2;
-            rigidbody2D.drag = 10;
+            }
+            if (movementCommands.x == 0)
+            {
 
-        }
-        if (movementCommands.magnitude != 0)
-        {
-
-            rigidbody2D.drag = 0;
+                rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
 
 
+            }
+            if (movementCommands.y == 0)
+            {
+
+                rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 0);
+
+
+            }
+
+            if (movementCommands.magnitude != 0)
+            {
+
+                rigidbody2D.drag = 0;
+
+
+            }
         }
 
         if (playerStats.fireRateCountdown <= 0 && inputActions.Player.Shooting.ReadValue<float>() != 0)

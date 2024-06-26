@@ -1,13 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+
 
 public class Bullet : MonoBehaviour
 {
     [Range(0, 10)]
     public double damage = 1;
     public int penetrations = 1;
+    public float pushback = 1;
     [Range(1, 100)]
     public float speed = 1;
     [Range(25, 100)]
@@ -18,7 +21,7 @@ public class Bullet : MonoBehaviour
     public Rigidbody2D rb;
 
 
-    private void Start()
+    private void Awake()
     {
         TryGetComponent(out rb);
         rb.AddForce(transform.up * speed);
@@ -42,6 +45,8 @@ public class Bullet : MonoBehaviour
     }
 
 
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
@@ -53,7 +58,12 @@ public class Bullet : MonoBehaviour
             {
 
                 collision.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+<<<<<<< Updated upstream
 
+=======
+                Vector3 direction =  rb.velocity.normalized;
+                collision.gameObject.GetComponent<Rigidbody2D>().AddForce(direction * pushback, ForceMode2D.Impulse);
+>>>>>>> Stashed changes
 
 
             }

@@ -14,7 +14,7 @@ public class UpgradeButton : MonoBehaviour
 
     public TextMeshProUGUI name;
     public TextMeshProUGUI description;
-
+    public bool selected = false;
 
     private void Awake()
     {
@@ -29,16 +29,21 @@ public class UpgradeButton : MonoBehaviour
     public void ButtonClick()
     {
 
-        Debug.Log("Cheese");
-        ChangeVariable(PlayerStats.PlayerStatsGlobal, upgrade.upgradedVariableName, upgrade.variableAmount, upgrade.wholeIncrements);
+        for (int run = 0; run < upgrade.upgradeData.Count; run++)
+        {
+
+            ChangeVariable(upgrade.upgradeData[run].scriptAccessed, upgrade.upgradeData[run].upgradedVariableName, upgrade.upgradeData[run].variableAmount, upgrade.upgradeData[run].wholeIncrements);
+            
+        }
+
+        selected = true;
+
+
         PlayerStats.PlayerStatsGlobal.playerLevel++;
-
-
     }
 
     public void OnMouseHover()
     {
-
 
         name.text = upgrade.name;
         description.text = upgrade.description;
@@ -71,9 +76,10 @@ public class UpgradeButton : MonoBehaviour
                 
                 double fieldValue = Convert.ToDouble(fieldInfo.GetValue(target));
                 fieldInfo.SetValue(target, Convert.ChangeType(fieldValue + (fieldValue * newValue), fieldInfo.FieldType));
-                Debug.Log(fieldValue * newValue);
+                
             }
             // Set the new value to the field
+            Debug.Log("chese");
         }
         else
         {

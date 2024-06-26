@@ -15,15 +15,4 @@ public class UpgradeDetails : MonoBehaviour
 
 
 
-    private void Start()
-    {
-            
-        
-
-        
-
-    }
-
-
-
 }

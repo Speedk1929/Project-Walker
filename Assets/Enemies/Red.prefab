@@ -98,7 +98,12 @@ GameObject:
   - component: {fileID: 4939847416540815523}
   - component: {fileID: 3660571697974721704}
   - component: {fileID: 4498672187119767314}
+<<<<<<< Updated upstream
   m_Layer: 0
+=======
+  - component: {fileID: -493645068603427149}
+  m_Layer: 7
+>>>>>>> Stashed changes
   m_Name: Red
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -178,12 +183,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02e05548263d73428e9d58b3f1f87d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   health: 1
+=======
+  health: 3
+>>>>>>> Stashed changes
   damage: 1
-  speed: 2.75
-  maxAcceleration: 10
+  speed: 5
+  maxAcceleration: 15
   expirience: 1
   spawnCost: 1
+<<<<<<< Updated upstream
+=======
+  apartOfWave: 0
+  particleSystem: {fileID: 634012636692179944, guid: 972fdc8e2658e6745b15ab786dc96c4d, type: 3}
+  allowedFlickers: 3
+>>>>>>> Stashed changes
 --- !u!114 &4939847416540815523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,7 +267,7 @@ MonoBehaviour:
   endReachedDistance: 0.2
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
-  whenCloseToDestination: 0
+  whenCloseToDestination: 1
   constrainInsideGraph: 0
 --- !u!114 &4498672187119767314
 MonoBehaviour:
@@ -268,3 +283,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   target: {fileID: 0}
+--- !u!50 &-493645068603427149
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393857197396936618}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 1
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

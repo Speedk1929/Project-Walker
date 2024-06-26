@@ -29,26 +29,32 @@ public class HealthDisplay : MonoBehaviour
 
     public void FindHealthAmount()
     {
-        while (lives.Count != PlayerStats.PlayerStatsGlobal.maxHealth)
+        if (lives.Count != PlayerStats.PlayerStatsGlobal.maxHealth)
         {
 
-            if (lives.Count < PlayerStats.PlayerStatsGlobal.maxHealth)
+
+            for (int run = 0; run < lives.Count; run++)
             {
 
-                GameObject newLife = Instantiate(life, healthBar.transform);
-                lives.Add(newLife);
-
+                Destroy(lives[run]);
 
 
             }
 
+            lives.Clear();
 
-            if (lives.Count > PlayerStats.PlayerStatsGlobal.maxHealth)
+            for (int run = 0; run < PlayerStats.PlayerStatsGlobal.maxHealth; run++)
             {
 
-                Destroy(lives.Last());
+                if (lives.Count < PlayerStats.PlayerStatsGlobal.maxHealth)
+                {
+
+                    GameObject newLife = Instantiate(life, healthBar.transform);
+                    lives.Add(newLife);
 
 
+
+                }
             }
 
         }

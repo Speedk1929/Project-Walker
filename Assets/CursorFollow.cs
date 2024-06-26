@@ -30,10 +30,8 @@ public class CursorFollow : MonoBehaviour
 
          Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
-        Vector3 influencedPosition = Vector3.Lerp(player.transform.position, mousePosition, cursorInfluence);
-
-
-        transform.position = influencedPosition;
+         Vector3 influencedPosition = Vector3.Lerp(player.transform.position, mousePosition, cursorInfluence);
+         transform.position = influencedPosition;
 
 
 

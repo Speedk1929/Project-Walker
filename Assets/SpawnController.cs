@@ -141,6 +141,9 @@ public class SpawnController : MonoBehaviour
     
     public void RandomSpawnLocation(GameObject enemy, List<GameObject> spawnLocations)
     {
+
+
+        
         double distanceToPlayer = 0;
         while (distanceToPlayer < playerSpawnBuffer)
         {
@@ -157,7 +160,7 @@ public class SpawnController : MonoBehaviour
             }
 
         }
-
+        
     }
 
 

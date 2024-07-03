@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.Timeline;
-using UnityEngine.U2D;
 using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
@@ -28,14 +26,6 @@ public class PlayerStats : MonoBehaviour
     [Range(0f, 100f)]
     public float pushbackOnDamaged = 10f;
 
-    SpriteShapeRenderer spriteRenderer;
-    Coroutine pushback;
-    int flickers = 0;
-    [Range(1, 10)]
-    public int allowedFlickers = 0;
-    UnityEngine.Color color;
-    UnityEngine.Color flickerColor;
-
     [Header("Upgrade Parameters")]
     public double xp = 0;
     public double xpNeededToLevelUp = 0;
@@ -58,12 +48,8 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
-
         TryGetComponent(out rb2D);
-        TryGetComponent(out spriteRenderer);
 
-        color = spriteRenderer.color;
-        flickerColor = new UnityEngine.Color(color.r, color.g, color.b, 0.01f);
 
     }
 
@@ -86,13 +72,6 @@ public class PlayerStats : MonoBehaviour
 
 
         }
-        if (maxHealth < currentHealth)
-        {
-
-            currentHealth = maxHealth;
-
-
-        }
 
 
     }
@@ -111,26 +90,8 @@ public class PlayerStats : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-<<<<<<< Updated upstream
 
             Destroy(gameObject);
-=======
-            Flicker();
-            currentHealth -= damage;
-
-            Vector2 direction = new Vector2(transform.position.x, transform.position.y) - impactPoint;
-
-            rb2D.AddForce(direction * pushbackOnDamaged, ForceMode2D.Impulse);
-
-            StartCoroutine(Invincibility());
-
-            if (currentHealth <= 0)
-            {
-
-                Destroy(gameObject);
-
-            }
->>>>>>> Stashed changes
 
         }
 
@@ -154,32 +115,6 @@ public class PlayerStats : MonoBehaviour
 
         }
 
-    }
-
-    public void Flicker()
-    {
-        flickers++;
-        spriteRenderer.color = flickerColor;
-        Invoke("ResetColor", UnityEngine.Random.Range(0.05f, 0.1f));
-
-    }
-
-    public void ResetColor()
-    {
-        spriteRenderer.color = color;
-        if (flickers <= allowedFlickers)
-        {
-
-            Invoke("Flicker", UnityEngine.Random.Range(0.05f, 0.1f));
-
-        }
-
-        else
-        {
-            spriteRenderer.color = color;
-            flickers = 0;
-
-        }
     }
 
 

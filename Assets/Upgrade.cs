@@ -10,7 +10,8 @@ public class Upgrade
 {
     public string name;
     public string description;
-    public List<UpgradeData> upgradeData = new List<UpgradeData>();
+    public string upgradedVariableName;
+    public double variableAmount;
+    public bool wholeIncrements = false;
     public Sprite icon;
-    public int allowedSelections = 1;
 }

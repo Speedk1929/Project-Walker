@@ -1,23 +1,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 using UnityEngine.Timeline;
-using UnityEngine.U2D;
 using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
     [Header("Health Parameters")]
     public double maxHealth = 3;
+    [Range(0, 1)]
     public double regenerationRate = 0;
+    private double regenHealth = 0;
     public double currentHealth = 3;
     [Header("Speed Parameters")]
     [Range(0, 50)]
-    public double maxSpeed = 0;
+    public float maxSpeed = 0;
     [Range(0, 10)]
     public float acceleration = 0;
+    public float currentSpeed = 0;
 
     [Header("Firepower Parameters")]
     [Range(0.01f, 0.5f)]
@@ -27,14 +28,9 @@ public class PlayerStats : MonoBehaviour
     [Header("Damage Parameters")]
     [Range(0f, 100f)]
     public float pushbackOnDamaged = 10f;
-
-    SpriteShapeRenderer spriteRenderer;
-    Coroutine pushback;
-    int flickers = 0;
-    [Range(1, 10)]
-    public int allowedFlickers = 0;
-    UnityEngine.Color color;
-    UnityEngine.Color flickerColor;
+    [Range(0, 1f)]
+    public float invincibilityDuriation = 0.15f;
+    public bool invincibilityCheck = false;
 
     [Header("Upgrade Parameters")]
     public double xp = 0;
@@ -52,24 +48,21 @@ public class PlayerStats : MonoBehaviour
     {
         xpSlider = GameObject.Find("XpSlider").GetComponent<Slider>();
         PlayerStatsGlobal = this;
-
+        currentHealth = maxHealth;
 
     }
 
     private void Start()
     {
-
         TryGetComponent(out rb2D);
-        TryGetComponent(out spriteRenderer);
 
-        color = spriteRenderer.color;
-        flickerColor = new UnityEngine.Color(color.r, color.g, color.b, 0.01f);
 
     }
 
     private void FixedUpdate()
     {
 
+        currentSpeed = rb2D.velocity.magnitude;
 
         if (fireRateCountdown > 0)
         {
@@ -79,43 +72,30 @@ public class PlayerStats : MonoBehaviour
         }
 
 
-        if (currentHealth < 3)
+        if (currentHealth < maxHealth)
         {
 
-            currentHealth += (Time.deltaTime * 1) / 60;
+            regenHealth += Time.deltaTime * regenerationRate;
 
+
+            if (regenHealth >= 1)
+            {
+                currentHealth++;
+                regenHealth = 0;
+
+            }
 
         }
-        if (maxHealth < currentHealth)
-        {
-
-            currentHealth = maxHealth;
-
-
-        }
-
 
     }
 
 
+
     public void TakeDamage(double damage, Vector2 impactPoint)
     {
-
-        currentHealth -= damage;
-
-        Vector2 direction = new Vector2(transform.position.x, transform.position.y) - impactPoint ;
-
-        rb2D.AddForce(direction * pushbackOnDamaged, ForceMode2D.Impulse);
-
-
-
-        if (currentHealth <= 0)
+        if (!invincibilityCheck)
         {
-<<<<<<< Updated upstream
 
-            Destroy(gameObject);
-=======
-            Flicker();
             currentHealth -= damage;
 
             Vector2 direction = new Vector2(transform.position.x, transform.position.y) - impactPoint;
@@ -130,12 +110,24 @@ public class PlayerStats : MonoBehaviour
                 Destroy(gameObject);
 
             }
->>>>>>> Stashed changes
 
         }
+    }
 
+    public IEnumerator Invincibility()
+    {
+
+
+        invincibilityCheck = true;
+
+        yield return new WaitForSeconds(invincibilityDuriation);
+
+        invincibilityCheck = false;
+
+        yield break;
 
     }
+
 
     public void AddExpirience(double expirience)
     {
@@ -151,35 +143,8 @@ public class PlayerStats : MonoBehaviour
             xpSlider.value = Convert.ToSingle(xp);
             upgrade.Invoke();
 
-
         }
 
-    }
-
-    public void Flicker()
-    {
-        flickers++;
-        spriteRenderer.color = flickerColor;
-        Invoke("ResetColor", UnityEngine.Random.Range(0.05f, 0.1f));
-
-    }
-
-    public void ResetColor()
-    {
-        spriteRenderer.color = color;
-        if (flickers <= allowedFlickers)
-        {
-
-            Invoke("Flicker", UnityEngine.Random.Range(0.05f, 0.1f));
-
-        }
-
-        else
-        {
-            spriteRenderer.color = color;
-            flickers = 0;
-
-        }
     }
 
 

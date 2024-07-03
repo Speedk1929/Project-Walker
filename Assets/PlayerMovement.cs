@@ -1,11 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
-<<<<<<< Updated upstream
-=======
-using TMPro;
 using Unity.PlasticSCM.Editor.WebApi;
->>>>>>> Stashed changes
 using UnityEditor;
 using UnityEngine;
 
@@ -17,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     PlayerControls inputActions = null;
 
     PlayerStats playerStats;
+    public double currentSpeed;
     public Transform firePoint;
     public GameObject bullet;
 
@@ -25,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
 
-        
+
         playerTransform = transform;
         TryGetComponent(out rigidbody2D);
         TryGetComponent(out playerStats);
@@ -64,28 +61,28 @@ public class PlayerMovement : MonoBehaviour
 
         float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg;
         // Rotate the sprite to face towards the mouse
-        transform.rotation = Quaternion.Euler(0f, 0f, angle -90);
+        
+        transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Lerp(transform.rotation.z, angle, 4f) -90);
 
 
         Vector2 movementCommands = inputActions.Player.Movement.ReadValue<Vector2>();
 
         
-        double speed = Mathf.Abs(rigidbody2D.velocity.x) + Mathf.Abs(rigidbody2D.velocity.y);
- 
-        if (speed < playerStats.maxSpeed)
+        float speed = Mathf.Abs(rigidbody2D.velocity.x) + Mathf.Abs(rigidbody2D.velocity.y);
+        currentSpeed = Mathf.Abs(rigidbody2D.velocity.x) + Mathf.Abs(rigidbody2D.velocity.y);
+
+
+
+
+
+        if (!playerStats.invincibilityCheck)
         {
-<<<<<<< Updated upstream
-
             rigidbody2D.AddForce(playerStats.acceleration * movementCommands * Time.deltaTime * 100);
-
-=======
-            rigidbody2D.AddForce(playerStats.acceleration * movementCommands * Time.deltaTime * 1000);
 
             if (rigidbody2D.velocity.magnitude > playerStats.maxSpeed)
             {
 
                 rigidbody2D.velocity = rigidbody2D.velocity.normalized * playerStats.maxSpeed;
-
             }
             
             if (movementCommands.magnitude == 0)
@@ -117,8 +114,6 @@ public class PlayerMovement : MonoBehaviour
 
 
             }
-            
->>>>>>> Stashed changes
         }
 
         if (playerStats.fireRateCountdown <= 0 && inputActions.Player.Shooting.ReadValue<float>() != 0)
@@ -129,6 +124,8 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
+
+
     }
 
     public void Fire()
@@ -138,7 +135,6 @@ public class PlayerMovement : MonoBehaviour
         GameObject bulletFired = Instantiate(bullet, null, false);
         bulletFired.transform.position = firePoint.position;
         bulletFired.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles);
-        bulletFired.SetActive(true);
 
 
     }

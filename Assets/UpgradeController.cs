@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,8 +15,7 @@ public class UpgradeController : MonoBehaviour
     public List<Upgrade> upgrades = new List<Upgrade>();
     public List<Upgrade> upgradesSelected = new List<Upgrade>();
 
-    public int maxAvailableUpgrades = 4;
-    public List<Upgrade> upgradesAvailable = new List<Upgrade>();
+    public int maxAvaliableUpgrades = 4;
     public GameObject upgradeButtonPrefab;
     public GameObject upgradePanel;
     public GameObject upgradeDescriptions;
@@ -30,7 +28,7 @@ public class UpgradeController : MonoBehaviour
     private void Start()
     {
 
-        maxAvailableUpgrades = Convert.ToInt32(MathF.Min(maxAvailableUpgrades, upgrades.Count));
+        maxAvaliableUpgrades = Convert.ToInt32(MathF.Min(maxAvaliableUpgrades, upgrades.Count));
         PlayerStats.PlayerStatsGlobal.upgrade += LevelUp;
         upgradePanel.GetComponent<Image>().enabled = false;
         upgradeDescriptions.SetActive(false);
@@ -41,103 +39,8 @@ public class UpgradeController : MonoBehaviour
     {
 
         StartCoroutine(LevelUpCall());
-        
 
     }
-
-    public List<Upgrade> CheckAvailableUpgrades()
-    {
-        List<Upgrade> upgradesChecked = new List<Upgrade>();
-
-
-        foreach (Upgrade upgrade in upgrades)
-        {
-
-            if (upgrade.allowedSelections > 0)
-            {
-
-                int satisfiedConiditions = 0;
-                
-
-                foreach (UpgradeData upgradeData in upgrade.upgradeData)
-                {
-
-                    if (CheckLimitations(upgradeData.scriptAccessed, upgradeData.upgradedVariableName, upgradeData.variableAmount, upgradeData.wholeIncrements, upgradeData.max, upgradeData.minimum))
-                    {
-
-                        satisfiedConiditions++;
-
-                    }
-
-                }
-
-                if (satisfiedConiditions == upgrade.upgradeData.Count)
-                { 
-
-                    upgradesChecked.Add(upgrade);
-
-                }
-            }
-
-        }
-
-
-        return upgradesChecked;
-
-    }
-
-    public bool CheckLimitations(object target, string variableName, double newValue, bool wholeIncrements, double upperLimit = Mathf.Infinity, double lowerLimit = Mathf.NegativeInfinity)
-    {
-        
-        // Get the type of the target object
-        Type targetType = target.GetType();
-
-        // Find the field by name
-        FieldInfo fieldInfo = targetType.GetField(variableName, BindingFlags.Public | BindingFlags.Instance);
-
-        bool accetableChange = false;
-        // Check if the field was found and is not null
-        if (fieldInfo != null)
-        {
-
-
-            double fieldValue = Convert.ToDouble(fieldInfo.GetValue(target));
-            double fieldChangedValue = 0;
-            if (wholeIncrements)
-            {
-                fieldChangedValue = fieldValue + newValue;
-
-            }
-
-
-            else
-            {
-
-                fieldChangedValue = fieldValue + (fieldValue * newValue);
-
-            }
-
-            
-            if (fieldChangedValue < upperLimit && fieldChangedValue > lowerLimit)
-            {
-
-                accetableChange = true;
-
-
-            }
-
-
-            // Set the new value to the field
-            
-        }
-        else
-        {
-            Debug.LogError($"Field '{variableName}' not found in {targetType.Name}.");
-        }
-
-        return accetableChange;
-    }
-
 
 
 
@@ -148,21 +51,14 @@ public class UpgradeController : MonoBehaviour
         int playerLevel = PlayerStats.PlayerStatsGlobal.playerLevel;
         List<GameObject> buttonList = new List<GameObject>();
 
-        upgradesAvailable.Clear();
-        upgradesSelected.Clear();
-        upgradesAvailable = CheckAvailableUpgrades();
-        maxAvailableUpgrades = Convert.ToInt32(MathF.Min(maxAvailableUpgrades, upgradesAvailable.Count));
-
-
-
-        while (upgradesSelected.Count < maxAvailableUpgrades)
+        while (upgradesSelected.Count < maxAvaliableUpgrades)
         {
 
-            int randomSelection = UnityEngine.Random.Range(0, upgradesAvailable.Count);
-            if (!upgradesSelected.Contains(upgradesAvailable[randomSelection]))
+            int randomSelection = UnityEngine.Random.Range(0, upgrades.Count);
+            if (!upgradesSelected.Contains(upgrades[randomSelection]))
             {
 
-                upgradesSelected.Add(upgradesAvailable[randomSelection]);
+                upgradesSelected.Add(upgrades[randomSelection]);
 
 
             }
@@ -182,8 +78,6 @@ public class UpgradeController : MonoBehaviour
             upgradeButton.GetComponent<Image>().sprite = upgradesSelected[run].icon;
         }
 
-
-
         Time.timeScale = 0;
 
         yield return new WaitUntil(() => PlayerStats.PlayerStatsGlobal.playerLevel > playerLevel);
@@ -192,12 +86,7 @@ public class UpgradeController : MonoBehaviour
 
         for (int run = 0; run < buttonList.Count; run++)
         {
-            if(buttonList[run].GetComponent<UpgradeButton>().selected)
-            {
 
-                upgrades.Find(Upgrade => Upgrade.name == buttonList[run].GetComponent<UpgradeButton>().upgrade.name).allowedSelections--;
-
-            }
             Destroy(buttonList[run]);
              
             

@@ -14,12 +14,7 @@ GameObject:
   - component: {fileID: 620051040886035183}
   - component: {fileID: 75400735378059456}
   - component: {fileID: 2210869595972597759}
-<<<<<<< Updated upstream
-  m_Layer: 0
-=======
-  - component: {fileID: -7750416088821479208}
   m_Layer: 7
->>>>>>> Stashed changes
   m_Name: Pink
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -36,8 +31,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.62, y: 0.50705296, z: -2.5643582}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9065830753875839683}
   m_Father: {fileID: 0}
@@ -54,7 +49,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -85,7 +80,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.4, y: 0.4}
   m_EdgeRadius: 0
 --- !u!114 &197660471590015337
 MonoBehaviour:
@@ -101,20 +96,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1
   damage: 1
-<<<<<<< Updated upstream
-  speed: 4
-=======
-  speed: 8
->>>>>>> Stashed changes
+  speed: 6
   maxAcceleration: 20
   expirience: 1
   spawnCost: 1
   apartOfWave: 0
-<<<<<<< Updated upstream
-=======
   particleSystem: {fileID: 8186236331496954355, guid: a793c48ea92b2b648b53caf86d303069, type: 3}
-  allowedFlickers: 1
->>>>>>> Stashed changes
 --- !u!114 &620051040886035183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +170,7 @@ MonoBehaviour:
   endReachedDistance: 0.2
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
-  whenCloseToDestination: 1
+  whenCloseToDestination: 0
   constrainInsideGraph: 0
 --- !u!114 &2210869595972597759
 MonoBehaviour:
@@ -199,33 +186,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   target: {fileID: 0}
---- !u!50 &-7750416088821479208
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 988945682583051529}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 1
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 1
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &5690599479517228604
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,7 +196,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9065830753875839683}
   - component: {fileID: 2916991740916638709}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy GFX
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -253,7 +213,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 2.5643582}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2864075449692569439}

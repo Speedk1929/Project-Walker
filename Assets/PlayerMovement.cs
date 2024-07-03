@@ -1,11 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
-<<<<<<< Updated upstream
-=======
 using TMPro;
 using Unity.PlasticSCM.Editor.WebApi;
->>>>>>> Stashed changes
 using UnityEditor;
 using UnityEngine;
 
@@ -74,11 +71,7 @@ public class PlayerMovement : MonoBehaviour
  
         if (speed < playerStats.maxSpeed)
         {
-<<<<<<< Updated upstream
 
-            rigidbody2D.AddForce(playerStats.acceleration * movementCommands * Time.deltaTime * 100);
-
-=======
             rigidbody2D.AddForce(playerStats.acceleration * movementCommands * Time.deltaTime * 1000);
 
             if (rigidbody2D.velocity.magnitude > playerStats.maxSpeed)
@@ -118,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
 
             }
             
->>>>>>> Stashed changes
+
         }
 
         if (playerStats.fireRateCountdown <= 0 && inputActions.Player.Shooting.ReadValue<float>() != 0)

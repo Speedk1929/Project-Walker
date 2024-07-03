@@ -31,8 +31,7 @@ public class Enemy : MonoBehaviour
     public int spawnChance = 0;
     public int spawnCost = 1;
     public bool apartOfWave = false;
-<<<<<<< Updated upstream
-=======
+
 
     [Header("Death Effects")]
     public GameObject particleSystem;
@@ -43,7 +42,6 @@ public class Enemy : MonoBehaviour
     public int allowedFlickers = 0;
     Color color;
     Color flickerColor;
->>>>>>> Stashed changes
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -53,17 +51,13 @@ public class Enemy : MonoBehaviour
         pathing.maxAcceleration = Convert.ToSingle(maxAcceleration);
         destination.target = player.transform;
 
-<<<<<<< Updated upstream
-
-
-=======
         TryGetComponent(out rigidbody);
         transform.GetChild(0).TryGetComponent(out spriteRenderer);
 
         color = spriteRenderer.color;
         flickerColor = new Color(color.r, color.g, color.b, 0.01f);
         
->>>>>>> Stashed changes
+
 
     }
 
@@ -71,19 +65,11 @@ public class Enemy : MonoBehaviour
     {
 
         health -= damage;
-<<<<<<< Updated upstream
         if (health <= 0)
         {
 
             player.GetComponent<PlayerStats>().AddExpirience(expirience);
             Destroy(gameObject);
-=======
-
-        if (health <= 0)
-        {
-
-            Death();
->>>>>>> Stashed changes
 
         }
         if (pushback == null)
@@ -102,8 +88,6 @@ public class Enemy : MonoBehaviour
         {
 
             player.GetComponent<PlayerStats>().TakeDamage(damage, transform.position);
-
-
 
 
         }

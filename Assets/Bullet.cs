@@ -58,12 +58,10 @@ public class Bullet : MonoBehaviour
             {
 
                 collision.gameObject.GetComponent<Enemy>().TakeDamage(damage);
-<<<<<<< Updated upstream
 
-=======
                 Vector3 direction =  rb.velocity.normalized;
                 collision.gameObject.GetComponent<Rigidbody2D>().AddForce(direction * pushback, ForceMode2D.Impulse);
->>>>>>> Stashed changes
+
 
 
             }

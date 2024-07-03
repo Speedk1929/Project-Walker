@@ -15,7 +15,7 @@ public class PlayerStats : MonoBehaviour
     public double currentHealth = 3;
     [Header("Speed Parameters")]
     [Range(0, 50)]
-    public double maxSpeed = 0;
+    public float maxSpeed = 0;
     [Range(0, 10)]
     public float acceleration = 0;
 
@@ -27,7 +27,7 @@ public class PlayerStats : MonoBehaviour
     [Header("Damage Parameters")]
     [Range(0f, 100f)]
     public float pushbackOnDamaged = 10f;
-
+    public bool isInvincible = false;
     SpriteShapeRenderer spriteRenderer;
     Coroutine pushback;
     int flickers = 0;
@@ -107,31 +107,13 @@ public class PlayerStats : MonoBehaviour
 
         rb2D.AddForce(direction * pushbackOnDamaged, ForceMode2D.Impulse);
 
+        StartCoroutine(Invincibility());
+        Flicker();
 
 
         if (currentHealth <= 0)
         {
-<<<<<<< Updated upstream
-
             Destroy(gameObject);
-=======
-            Flicker();
-            currentHealth -= damage;
-
-            Vector2 direction = new Vector2(transform.position.x, transform.position.y) - impactPoint;
-
-            rb2D.AddForce(direction * pushbackOnDamaged, ForceMode2D.Impulse);
-
-            StartCoroutine(Invincibility());
-
-            if (currentHealth <= 0)
-            {
-
-                Destroy(gameObject);
-
-            }
->>>>>>> Stashed changes
-
         }
 
 
@@ -180,6 +162,22 @@ public class PlayerStats : MonoBehaviour
             flickers = 0;
 
         }
+    }
+
+
+
+    IEnumerator Invincibility()
+    {
+
+        isInvincible = true;
+
+        yield return new WaitForSeconds(0.8f);
+
+        isInvincible = false;
+
+
+        yield break;
+
     }
 
 

@@ -16,7 +16,8 @@ public class Bullet : MonoBehaviour
 
 
     public Rigidbody2D rb;
-
+    [Header("Death Effects")]
+    public GameObject particleSystem;
 
     private void Start()
     {
@@ -53,7 +54,7 @@ public class Bullet : MonoBehaviour
             {
 
                 collision.gameObject.GetComponent<Enemy>().TakeDamage(damage);
-
+                
 
 
             }
@@ -63,9 +64,12 @@ public class Bullet : MonoBehaviour
             penetrations--;
 
 
-
             if (penetrations <= 0)
             {
+
+                GameObject particle = Instantiate(particleSystem);
+                particle.transform.position = transform.position;
+                particle.transform.rotation =  transform.rotation;
 
                 Destroy(gameObject);
 

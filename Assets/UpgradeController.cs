@@ -40,9 +40,6 @@ public class UpgradeController : MonoBehaviour
 
         StartCoroutine(LevelUpCall());
 
-
-
-
     }
 
 

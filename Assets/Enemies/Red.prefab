@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7751665860247666168}
   - component: {fileID: 6205496244656210985}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy GFX
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 4939847416540815523}
   - component: {fileID: 3660571697974721704}
   - component: {fileID: 4498672187119767314}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Red
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -178,12 +178,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02e05548263d73428e9d58b3f1f87d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1
+  health: 2
   damage: 1
   speed: 2.75
   maxAcceleration: 10
   expirience: 1
   spawnCost: 1
+  apartOfWave: 0
+  particleSystem: {fileID: 634012636692179944, guid: 972fdc8e2658e6745b15ab786dc96c4d, type: 3}
 --- !u!114 &4939847416540815523
 MonoBehaviour:
   m_ObjectHideFlags: 0

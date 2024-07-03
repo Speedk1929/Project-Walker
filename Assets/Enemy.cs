@@ -28,6 +28,11 @@ public class Enemy : MonoBehaviour
     [Header("Spawn Properties")]
     public int spawnCost = 1;
     public bool apartOfWave = false;
+
+    [Header("Death Effects")]
+    public GameObject particleSystem;
+
+
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -37,9 +42,6 @@ public class Enemy : MonoBehaviour
         pathing.maxAcceleration = Convert.ToSingle(maxAcceleration);
         destination.target = player.transform;
 
-
-
-
     }
 
 
@@ -48,11 +50,18 @@ public class Enemy : MonoBehaviour
     {
 
         health -= damage;
+
+        
+
         if (health <= 0)
         {
 
             player.GetComponent<PlayerStats>().AddExpirience(expirience);
+            Instantiate(particleSystem).transform.position = transform.position;
             Destroy(gameObject);
+
+
+
 
         }
 
